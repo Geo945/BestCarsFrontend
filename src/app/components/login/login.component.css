@@ -1,0 +1,14 @@
+.container{
+  max-width: 600px;
+  border: 1px solid steelblue;
+  margin-top: 150px;
+  margin-bottom: 150px;
+  overflow: auto;
+  padding: 30px;
+  border-radius: 20px;
+  position: relative;
+
+}
+
+
+

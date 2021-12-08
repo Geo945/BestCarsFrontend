@@ -1,0 +1,38 @@
+<div class="container">
+  <form #addPersonForm="ngForm" (ngSubmit)="onAddPerson(addPersonForm)">
+    <div class="form-group">
+      <label for="loginUsername">Username</label>
+      <input type="text" ngModel name="username" class="form-control" id="loginUsername" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label for="loginFirstName">First name</label>
+      <input type="text" ngModel name="firstName" class="form-control" id="loginFirstName" placeholder="First name">
+    </div>
+    <div class="form-group">
+      <label for="loginLastName">Last name</label>
+      <input type="text" ngModel name="lastName" class="form-control" id="loginLastName" placeholder="Last name">
+    </div>
+    <div class="form-group">
+      <label for="loginEmail">Email address</label>
+      <input type="email" ngModel name="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="loginPassword">Password</label>
+      <input type="password" ngModel name="password" class="form-control" id="loginPassword" placeholder="Password">
+    </div>
+    <div class="form-group">
+      <label for="loginConfirmPass">Confirm password</label>
+      <input type="password" ngModel name="confirmPass" class="form-control" id="loginConfirmPass" placeholder="Confirm password">
+    </div>
+    <div class="form-group">
+      <label for="loginImageUrl">Profile image url</label>
+      <input type="text" ngModel name="imageUrl" class="form-control" id="loginImageUrl" placeholder="Profile image url">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button routerLink="/login" class="btn btn-primary" style="margin-left: 20px">Login</button>
+  </form>
+</div>
+
+
