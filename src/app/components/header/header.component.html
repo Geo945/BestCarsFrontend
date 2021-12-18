@@ -4,20 +4,138 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <!--Navigation bar-->
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a style="color: white" class="nav-link" href="#">Favorites<span class="sr-only">(current)</span></a>
+        <a routerLink="/" style="color: white" class="nav-link" >Favorites<span class="sr-only">(current)</span></a>
       </li>
 
       <li class="nav-item active">
-        <a style="color: white" routerLink="/login" class="nav-link" href="#">Login | Register</a>
+        <a style="color: white" routerLink="/login" class="nav-link" >Login | Register</a>
       </li>
 
+      <li *ngIf="onlineUser?.username==='Admin' && hasRoute('/')" class="nav-item active">
+        <a style="color: white" routerLink="/pending" class="nav-link">Pending Offers</a>
+      </li>
+
+      <li *ngIf="onlineUser?.username==='Admin' && hasRoute('/')" class="nav-item active">
+        <a style="color: white" routerLink="/seeAllUsers" class="nav-link" >See Users</a>
+      </li>
+
+      <li *ngIf="onlineUser?.username && hasRoute('/')" class="nav-item dropdown">
+        <a style="color: white;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{onlineUser?.username}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a (click)="onOpenModal(onlineUser, 'add')" style="background-color: lightskyblue; margin: 10px auto; cursor: pointer;" class="dropdown-item" >Sell now!</a>
+          <div class="dropdown-divider"></div>
+          <a (click)="onOpenModal(onlineUser, 'changePassword')" style="background-color: lightskyblue; margin: 10px auto;cursor: pointer;" class="dropdown-item" >Change password</a>
+        </div>
+      </li>
+      <li *ngIf="onlineUser?.username && hasRoute('/')" (click)="logout()" class="nav-item active">
+        <a style="color: white" routerLink="/login" class="nav-link" >Logout</a>
+      </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form *ngIf="hasRoute('/')" class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
 </nav>
+
+<!--Add car modal-->
+<div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCarModalLabel">Welcome {{onlineUser.username}}, please complete the fields</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addCarForm="ngForm" (ngSubmit)="onAddCarOffer(addCarForm)" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="titleModal">Ad title</label>
+          <input type="text" ngModel name="title" class="form-control" id="titleModal" placeholder="Enter ad title">
+        </div>
+        <div class="form-group">
+          <label for="yearModal">Fabrication year</label>
+          <input type="number" ngModel name="fabricationYear" class="form-control" id="yearModal" placeholder="Enter fabrication year">
+        </div>
+        <div class="form-group">
+          <label for="milesModal">Current mileage</label>
+          <input type="number" ngModel name="mileage" class="form-control" id="milesModal" placeholder="Enter current mileage">
+        </div>
+        <div class="form-group">
+          <label for="fuelModal">Fuel type</label>
+          <input type="text" ngModel name="fuelType" class="form-control" id="fuelModal" placeholder="Enter fuel type">
+        </div>
+        <div class="form-group">
+          <label for="cityModal">Enter city</label>
+          <input type="text" ngModel name="city" class="form-control" id="cityModal" placeholder="Enter city">
+        </div>
+        <div class="form-group">
+          <label for="priceModal">Enter price</label>
+          <input type="number" ngModel name="price" class="form-control" id="priceModal" placeholder="Enter price">
+        </div>
+        <div class="form-group">
+          <label for="file">Add car photos</label>
+          <input  (change)="onFilesSelected($event)" type="file" name="file" class="form-control" id="file" placeholder="Ad photos">
+        </div>
+          <input hidden type="text" value="" ngModel name="image"/>
+          <input hidden ngModel name="person" value="{{onlineUser}}"/>
+      <div class="modal-footer">
+        <button style="background-color: red; border: red;" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button style="background-color: green; border: green;" [disabled]="addCarForm.invalid" type="submit" class="btn btn-primary">Add car</button>
+      </div>
+      </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!--Change password modal-->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordModalLabel">Hello {{onlineUser.username}}, please complete the fields in order to change the password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label style="color: green; position: center;">{{this.onSuccessChangePasswordMessage}}</label>
+        <form #changePasswordForm="ngForm" (ngSubmit)="changeUserPassword(changePasswordForm)">
+          <div class="form-group">
+            <input type="hidden" ngModel="{{onlineUser?.id}}" name="id" class="form-control" id="id" >
+            <input type="hidden" ngModel="{{onlineUser?.username}}" name="username" class="form-control" id="username">
+            <input type="hidden" ngModel="{{onlineUser?.firstName}}" name="firstName" class="form-control" id="firstName">
+            <input type="hidden" ngModel="{{onlineUser?.lastName}}" name="lastName" class="form-control" id="lastName">
+            <input type="hidden" ngModel="{{onlineUser?.email}}" name="email" class="form-control" id="email">
+            <input type="hidden" ngModel="{{onlineUser?.personCode}}" name="personCode" class="form-control" id="personCode" >
+            <input type="hidden" ngModel="{{onlineUser?.imageUrl}}" name="imageUrl" class="form-control" id="imageUrl" >
+            <input type="hidden" ngModel="{{onlineUser?.phoneNumber}}" name="phoneNumber" class="form-control" id="phoneNumber">
+            <input type="hidden" ngModel="{{onlineUser?.role}}" name="role" class="form-control" id="role">
+            <label for="currentPassword">Current password</label>
+            <input type="password" [(ngModel)]="currentPassword" name="currentPassword" class="form-control" id="currentPassword" placeholder="Enter current password">
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New password</label>
+            <input type="password" [(ngModel)]="newPassword" name="newPassword" class="form-control" id="newPassword" placeholder="Enter new password">
+          </div>
+          <div class="form-group">
+            <label for="password">Confirm new password</label>
+            <input type="password" [(ngModel)]="confNewPassword" ngModel name="password" class="form-control" id="password" placeholder="Confirm new password">
+          </div>
+          <div class="modal-footer">
+            <button (click)="onCloseChangePasswordModal()" style="background-color: red; border: red;" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button [disabled]="changePasswordForm.invalid" style="background-color: green; border: green;" type="submit" class="btn btn-primary">Change</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

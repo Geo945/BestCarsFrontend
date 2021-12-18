@@ -1,1 +1,25 @@
-<p>home works!</p>
+<div *ngFor="let car of cars">
+  <div *ngIf="car?.approved" class="container">
+    <div class="row" >
+      <div class="column" >
+        <div class="img">
+          <img style="border-radius: 10px;" src="assets/img/p1.jpg"  class="pic">
+        </div>
+      </div>
+      <div class="column">
+        <p style="font-weight: bold;">{{car?.title}}</p>
+        <hr/>
+        <small class="inf">{{car?.fabricationYear}} <span class="span">&middot;</span> {{car?.mileage}} km <span class="span">&middot;</span> {{car?.fuelType}}<br/></small>
+        <small><i class="fa fa-map-marker" aria-hidden="true"> {{car?.city}} </i><br/></small>
+
+      </div>
+      <div class="price-col">
+        <p style="color: firebrick;font-weight: bold;">{{car?.price}} EUR</p>
+        <hr/>
+        <p>Contact: <button class="buton" style="background-color: blue;">{{car?.person?.phoneNumber}}</button></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+

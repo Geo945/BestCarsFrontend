@@ -1,36 +1,40 @@
 <div class="container">
   <form #addPersonForm="ngForm" (ngSubmit)="onAddPerson(addPersonForm)">
     <div class="form-group">
-      <label for="loginUsername">Username</label>
-      <input type="text" ngModel name="username" class="form-control" id="loginUsername" placeholder="Username">
+      <label for="registerUsername">Username</label>
+      <input type="text" ngModel name="username" class="form-control" id="registerUsername" placeholder="Username">
     </div>
     <div class="form-group">
-      <label for="loginFirstName">First name</label>
-      <input type="text" ngModel name="firstName" class="form-control" id="loginFirstName" placeholder="First name">
+      <label for="registerFirstName">First name</label>
+      <input type="text" ngModel name="firstName" class="form-control" id="registerFirstName" placeholder="First name">
     </div>
     <div class="form-group">
-      <label for="loginLastName">Last name</label>
-      <input type="text" ngModel name="lastName" class="form-control" id="loginLastName" placeholder="Last name">
+      <label for="registerLastName">Last name</label>
+      <input type="text" ngModel name="lastName" class="form-control" id="registerLastName" placeholder="Last name">
     </div>
     <div class="form-group">
-      <label for="loginEmail">Email address</label>
-      <input type="email" ngModel name="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
+      <label for="registerEmail">Email address</label>
+      <input type="email" ngModel name="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email">
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
     <div class="form-group">
-      <label for="loginPassword">Password</label>
-      <input type="password" ngModel name="password" class="form-control" id="loginPassword" placeholder="Password">
+      <label for="registerPhone">Phone number</label>
+      <input type="email" ngModel name="phoneNumber" class="form-control" id="registerPhone" aria-describedby="emailHelp" placeholder="Enter phone number">
     </div>
     <div class="form-group">
-      <label for="loginConfirmPass">Confirm password</label>
-      <input type="password" ngModel name="confirmPass" class="form-control" id="loginConfirmPass" placeholder="Confirm password">
+      <label for="registerPassword">Password</label>
+      <input type="password" ngModel name="password" class="form-control" id="registerPassword" placeholder="Password">
     </div>
     <div class="form-group">
-      <label for="loginImageUrl">Profile image url</label>
-      <input type="text" ngModel name="imageUrl" class="form-control" id="loginImageUrl" placeholder="Profile image url">
+      <label for="registerConfirmPass">Confirm password</label>
+      <input type="password" ngModel name="confirmPass" class="form-control" id="registerConfirmPass" placeholder="Confirm password">
+    </div>
+    <div class="form-group">
+      <label for="registerImageUrl">Profile image url</label>
+      <input type="text" ngModel name="imageUrl" class="form-control" id="registerImageUrl" placeholder="Profile image url">
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button [disabled]="addPersonForm.invalid" type="submit" class="btn btn-primary">Submit</button>
     <button routerLink="/login" class="btn btn-primary" style="margin-left: 20px">Login</button>
   </form>
 </div>

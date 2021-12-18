@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
       (person: Person) =>{
         console.log(person);
         addPersonForm.reset();
+        alert("Register success");
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

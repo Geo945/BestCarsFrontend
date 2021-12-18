@@ -7,4 +7,7 @@ export interface Person{
   password:string;
   personCode:string;
   imageUrl:string;
+  phoneNumber:string;
+  role: string;
 }
+
